@@ -15,7 +15,7 @@ public class JsonAuditRepository : IAudit
     public List<string> auditEntries = new();
     private const string? auditFile = "AuditFile.json";
     private readonly static DateTime currentDateTime = DateTime.Now;
-    private string date = currentDateTime.ToString();
+    private readonly string date = currentDateTime.ToString();
 
 
     public JsonAuditRepository(string action, string itemData)

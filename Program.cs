@@ -2,7 +2,6 @@
 using TravelApp.Repositories;
 
 var loopIsActiv = true;
-var itemIsAdded = true;
 var employeeRepository = new JsonRepository<Employee>("Employees");
 var customerRepository = new JsonRepository<Customer>("Customers");
 string insertedName;
