@@ -2,5 +2,5 @@
 
 public class Customer : EntityBase
 {
-    public override string ToString() => $"\n---[customer ID:]---[personal data:]----------------------------------------------------\n\n\t {Id} \t\t {FirstName} {LastName}";
+    public override string ToString() => $"\n\t {Id} \t\t {FirstName} {LastName} {Suffix}";
 }
