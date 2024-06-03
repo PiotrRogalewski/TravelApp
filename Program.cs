@@ -17,14 +17,9 @@ customerRepository.ItemAdded += EventCustomerAdded;
 customerRepository.ItemRemoved += EventItemRemoved;
 customerRepository.NewAuditEntry += EventNewAuditEntry;
 
-App();
-
-void App()
-{
-    WelcomeTheUser();
-    SelectFromMainMenu();
-    ShowEndingMessage();
-}
+WelcomeTheUser();
+SelectFromMainMenu();
+ShowEndingMessage();
 
 void EventEmployeeAddedWithInfoAboutSender(object? sender, Employee item)
 {
@@ -50,7 +45,7 @@ void EventItemRemoved(object? sender, EntityBase item)
 
 void EventNewAuditEntry(object? sender, EntityBase item)
 {
-    TextColoring(ConsoleColor.Yellow, "\n\tNew entry in the AuditFile!\n");
+    TextColoring(ConsoleColor.Yellow, $"\n\tNew entry about {item.GetType().Name} in the AuditFile!\n");
 }
 
 static void WriteAllFromEntityListToConsole(IReadRepository<IEntity> repository)
@@ -81,7 +76,7 @@ string InsertFullName()
     return insertedName + insertedLastName;
 }
 
-void AddEmployee(IRepository<Employee> repository)
+void AddNewEmployee(IRepository<Employee> repository)
 {
     InsertFullName();
     repository.Add(new Employee { FirstName = insertedName, LastName = insertedLastName });
@@ -90,21 +85,21 @@ void AddEmployee(IRepository<Employee> repository)
     auditRepository.SaveAuditFile();
 }
 
-void AddManager(IWriteRepository<Manager> repository)
+void AddNewManager(IWriteRepository<Employee> repository)
 {
     InsertFullName();
     var suffix = "[ Manager ]";
-    repository.Add(new Manager { FirstName = $"{insertedName}", LastName = $"{insertedLastName}", Suffix = $"{suffix}" });
+    repository.Add(new Employee { FirstName = $"{insertedName}", LastName = $"{insertedLastName}", Suffix = $"{suffix}" });
     repository.Save();
     auditRepository.AddEntryToFile();
     auditRepository.SaveAuditFile();
 }
 
-void AddNewEmployee(IRepository<Employee> repository)
+void SelectTypeOfEmployee(IRepository<Employee> repository)
 {
     while (loopIsActiv)
     {
-        TextColoring(ConsoleColor.DarkGreen, 
+        TextColoring(ConsoleColor.DarkGreen,
             "\tChoose one option:\n\n\t" +
             "> press '1' (+ 'ENTER') - to add a new employee\n\t" +
             "> press '2' (+ 'ENTER') - to add a new manager\n\t" +
@@ -118,10 +113,10 @@ void AddNewEmployee(IRepository<Employee> repository)
                 loopIsActiv = false;
                 break;
             case "1":
-                AddEmployee(employeeRepository);
+                AddNewEmployee(employeeRepository);
                 break;
             case "2":
-                AddManager(employeeRepository);
+                AddNewManager(employeeRepository);
                 break;
             default:
                 TextColoring(ConsoleColor.Red, "\n\tIncorrect selection! Try again!\n");
@@ -138,9 +133,9 @@ void AddNewCustomer(IRepository<Customer> repository)
     {
         TextColoring(ConsoleColor.DarkGreen, "\n\tChoose one option:\n\n\t" +
             "> press '1' (+ press ENTER button to confirm) - to add a new customer\n\t" +
-            "> press '2' (+ press ENTER button to confirm) - to add a customer with GOLD membership\n\t" +
-            "> press '3' (+ press ENTER button to confirm) - to add a customer with PLATINUM membership\n\t" +
-            "> press 'q' (+ press ENTER button to confirm) - to quit and back to main menu\n");
+            "> press '2' (+ press ENTER button to confirm) - to add a new customer with GOLD membership\n\t" +
+            "> press '3' (+ press ENTER button to confirm) - to add a new customer with PLATINUM membership\n\t" +
+            "> press 'q' (+ press ENTER button to confirm) - to quit and back to the main menu\n");
 
         var input = Console.ReadLine();
         string suffix = null;
@@ -168,8 +163,8 @@ void AddNewCustomer(IRepository<Customer> repository)
         {
             InsertFullName();
             repository.Add(new Customer { FirstName = insertedName, LastName = insertedLastName, Suffix = suffix });
-            auditRepository.AddEntryToFile();
             repository.Save();
+            auditRepository.AddEntryToFile();
             auditRepository.SaveAuditFile();
         }
     }
@@ -250,7 +245,7 @@ void SelectFromMainMenu()
                 break;
             case "2":
                 TextColoring(ConsoleColor.DarkGreen, "\t\t\t+ + Adding a new employee + +\n\n");
-                AddNewEmployee(employeeRepository);
+                SelectTypeOfEmployee(employeeRepository);
                 loopIsActiv = true;
                 break;
             case "3":

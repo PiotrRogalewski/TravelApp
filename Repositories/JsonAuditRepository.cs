@@ -14,13 +14,11 @@ public class JsonAuditRepository : IAudit
 
     public List<string> auditEntries = new();
     private const string? auditFile = "AuditFile.json";
-    private readonly static DateTime currentDateTime = DateTime.Now;
-    private readonly string date = currentDateTime.ToString();
-
+    private static string currentDate => DateTime.Now.ToString();
 
     public JsonAuditRepository(string action, string itemData)
     {
-        this.Date = date;
+        this.Date = currentDate;
         this.Action = action;
         this.ItemData = itemData;
 
