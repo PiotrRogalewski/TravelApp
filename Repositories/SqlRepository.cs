@@ -19,6 +19,11 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;
 
+    public string GetJsonFileName(string fileName)
+    {
+        return fileName;
+    }
+
     public IEnumerable<T> GetAll()
     {
         return _dbSet.OrderBy(item => item.Id).ToList();

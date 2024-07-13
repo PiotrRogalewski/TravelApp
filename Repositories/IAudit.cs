@@ -7,7 +7,7 @@
         string ItemData { get; }
 
         List<string> ReadAuditFile();
-        void AddEntryToFile();
+        void AddEntryToAuditFile();
         void SaveAuditFile();
     }
 }

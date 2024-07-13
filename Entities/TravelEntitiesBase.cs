@@ -3,6 +3,7 @@
 public class TravelEntitiesBase : IEntity
 {
     public int Id { get; set; }
+    public int ItemCounter { get; set; }
     public string Country { get; set; }
     public string? Region { get; set; }
     public string City { get; set; }

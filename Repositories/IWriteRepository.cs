@@ -6,5 +6,6 @@ public interface IWriteRepository <in T> where T : class, IEntity
 {
     void Add(T item);
     void Remove(T item);
-    void Save();                       
+    void Save();
+    string GetJsonFileName(string fileName);
 }
